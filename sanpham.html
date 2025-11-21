@@ -1,28 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sản phẩm</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    /* Khung chứa toàn bộ sản phẩm */
+    .product-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 25px;
+      padding: 20px;
+      width: 95%;
+      margin: auto;
+    }
+
+    /* Card sản phẩm */
+    .product {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: 0.2s;
+    }
+
+    .product:hover {
+      transform: translateY(-5px);
+    }
+
+    .product img {
+      width: 95%;
+      border-radius: 12px;
+    }
+
+    .name {
+      font-size: 22px;
+      font-weight: bold;
+      color: #222;
+      margin: 15px 0 10px;
+    }
+
+    .price {
+      font-size: 22px;
+      color: red;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 25px;
+      background: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #0b7dda;
+    }
+  </style>
 </head>
 
 <body>
-  <p style="text-align: center;font-size: 35px;">Các sản phẩm của chúng tôi
-<table border="1" cellspacing="0" cellpadding="8" align="center">
-    <tr>
-        <th><img src="sanpham1.jpg" alt=""></th>
-        <th><img src="sanpham2.jpg" alt="" /></th>
-        <th><img src="sanpham3.jpg" alt="" /></th>
-        <th><img src="sanpham4.jpg" alt="" /></th>
-    </tr>
-    <tr><td></td><td></td><td></td><td></td></tr>
-    <tr><td><img src="" alt=""></td>
-    <td><img src="" alt=""></td>
-    <td><img src="" alt=""></td>
-    <td><img src="" alt=""></td>
-    </tr>
-    <tr><td></td><td></td><td></td><td></td></tr>
-</table>
+
+  <h1>Các sản phẩm của chúng tôi</h1>
+
+  <div class="product-container">
+
+    <!-- SP1 -->
+    <div class="product">
+      <img src="sanpham1.jpg">
+      <div class="name">KIOXIA SSD PLUS G4 NVME SSD</div>
+      <div class="price">1,200,000đ</div>
+      <button onclick="addToCart('KIOXIA SSD PLUS G4 NVME SSD',1200000)">Thêm vào giỏ hàng</button>
+    </div>
+
+    <!-- SP2 -->
+    <div class="product">
+      <img src="sanpham2.jpg">
+      <div class="name">KIOXIA SSD PRO NVME SSD</div>
+      <div class="price">1,100,000đ</div>
+      <button onclick="addToCart('KIOXIA SSD PRO NVME SSD',1100000)">Thêm vào giỏ hàng</button>
+    </div>
+
+    <!-- SP3 -->
+    <div class="product">
+      <img src="sanpham3.jpg">
+      <div class="name">Màn hình máy tính IPS Full HD</div>
+      <div class="price">2,500,000đ</div>
+      <button onclick="addToCart('Màn hình máy tính IPS Full HD',2500000)">Thêm vào giỏ hàng</button>
+    </div>
+
+    <!-- SP4 -->
+    <div class="product">
+      <img src="sanpham4.jpg">
+      <div class="name">Thùng PC Gaming</div>
+      <div class="price">9,200,000đ</div>
+      <button onclick="addToCart('Thùng PC Gaming',9200000)">Thêm vào giỏ hàng</button>
+    </div>
+
+    <!-- SP5 -->
+    <div class="product">
+      <img src="sanpham5.jpg">
+      <div class="name">Thùng PC làm việc</div>
+      <div class="price">6,700,000đ</div>
+      <button onclick="addToCart('Thùng PC làm việc',6700000)">Thêm vào giỏ hàng</button>
+    </div>
+
+    <!-- SP6 -->
+    <div class="product">
+      <img src="sanpham6.jpg">
+      <div class="name">Geforce GTX 650 Graphics Card</div>
+      <div class="price">3,200,000đ</div>
+      <button onclick="addToCart('Geforce GTX 650 Graphics Card',3200000)">Thêm vào giỏ hàng</button>
+    </div>
+
+    <!-- SP7 -->
+    <div class="product">
+      <img src="sanpham7.jpg">
+      <div class="name">Kingston Fury Regengade G5 SSD</div>
+      <div class="price">3,000,000đ</div>
+      <button onclick="addToCart('Kingston Fury Regengade G5 SSD',3000000)">Thêm vào giỏ hàng</button>
+    </div>
+
+    <!-- SP8 -->
+    <div class="product">
+      <img src="sanpham8.jpg">
+      <div class="name">Gigabyte Geforce RTX Graphics Card</div>
+      <div class="price">6,900,000đ</div>
+      <button onclick="addToCart('Gigabyte Geforce RTX Graphics Card',6900000)">Thêm vào giỏ hàng</button>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT GIỎ HÀNG -->
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      let item = cart.find(i => i.name === name);
+
+      if (item) {
+        item.qty++;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      alert("Đã thêm vào giỏ hàng!");
+    }
+  </script>
+
 </body>
-</html>
+
+      </html>
+        
