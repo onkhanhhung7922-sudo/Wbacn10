@@ -153,21 +153,31 @@
 
   <!-- SCRIPT GIỎ HÀNG -->
   <script>
-    function addToCart(name, price) {
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+function addToCart(name, price) {
+    // Kiểm tra đăng nhập
+    let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-      let item = cart.find(i => i.name === name);
-
-      if (item) {
-        item.qty++;
-      } else {
-        cart.push({ name, price, qty: 1 });
-      }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      alert("Đã thêm vào giỏ hàng!");
+    if (!currentUser || !currentUser.username) {
+        alert("Bạn cần đăng nhập để thêm vào giỏ hàng!");
+        window.location.href = "dangnhapdangky.html"; 
+        return; // dừng lại
     }
+
+    // Nếu đã đăng nhập → thêm vào giỏ
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let item = cart.find(i => i.name === name);
+
+    if (item) {
+        item.qty++;
+    } else {
+        cart.push({ name, price, qty: 1 });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Đã thêm vào giỏ hàng!");
+}
   </script>
 
 </body>
