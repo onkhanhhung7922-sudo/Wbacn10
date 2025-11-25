@@ -64,15 +64,31 @@ button {
 </div>
 
 <script>
-    function checkout() {
+function checkout() {
     let fullname = document.getElementById("fullname").value.trim();
     let address = document.getElementById("address").value.trim();
 
     // Lấy giỏ hàng mới nhất
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    if (!fullname || !address) {
-        alert("Vui lòng nhập đầy đủ thông tin!");
+    // Kiểm tra họ tên
+    if (!fullname) {
+        alert("Vui lòng nhập họ tên!");
+        return;
+    }
+
+    // Kiểm tra địa chỉ
+    if (!address) {
+        alert("Vui lòng nhập địa chỉ nhận hàng!");
+        return;
+    }
+    if (address.length < 10) {
+        alert("Địa chỉ quá ngắn, vui lòng nhập ít nhất 10 ký tự!");
+        return;
+    }
+    // Kiểm tra địa chỉ có chữ và số (tùy ý)
+    if (!/[a-zA-Z]/.test(address) || !/\d/.test(address)) {
+        alert("Địa chỉ phải bao gồm cả chữ và số!");
         return;
     }
 
@@ -101,7 +117,7 @@ button {
     // Reset form
     document.getElementById("fullname").value = "";
     document.getElementById("address").value = "";
-    }
+}
 </script>
 
 </body>
