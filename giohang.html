@@ -56,7 +56,7 @@ button {
     <div class="money-box" id="grandTotal"><b>Tổng thanh toán: 0đ</b></div>
 </div>
 
-    <div id="checkoutBox">
+<div id="checkoutBox">
     <h2>Thông tin thanh toán</h2>
     <input type="text" id="fullname" placeholder="Họ và tên">
     <input type="text" id="address" placeholder="Địa chỉ nhận hàng">
@@ -64,10 +64,61 @@ button {
 </div>
 
 <script>
+// Render giỏ hàng
+function renderCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let table = document.getElementById("cartTable");
+    table.innerHTML = `
+        <tr>
+            <th>Sản phẩm</th>
+            <th>Giá</th>
+            <th>Số lượng</th>
+            <th>Tổng</th>
+            <th>Xóa</th>
+        </tr>
+    `;
+
+    let subtotal = 0;
+
+    cart.forEach((item, index) => {
+        let row = table.insertRow();
+        row.insertCell(0).innerText = item.name;
+        row.insertCell(1).innerText = item.price.toLocaleString() + "đ";
+        row.insertCell(2).innerText = item.qty;
+        row.insertCell(3).innerText = (item.price * item.qty).toLocaleString() + "đ";
+
+        let delCell = row.insertCell(4);
+        let delBtn = document.createElement("button");
+        delBtn.innerText = "Xóa";
+        delBtn.classList.add("removeBtn");
+        delBtn.onclick = () => removeItem(index);
+        delCell.appendChild(delBtn);
+
+        subtotal += item.price * item.qty;
+    });
+
+    let vat = subtotal * 0.1;
+    let shipping = cart.length > 0 ? 30000 : 0;
+    let grandTotal = subtotal + vat + shipping;
+
+    document.getElementById("subtotal").innerText = "Tạm tính: " + subtotal.toLocaleString() + "đ";
+    document.getElementById("vat").innerText = "Thuế (VAT 10%): " + vat.toLocaleString() + "đ";
+    document.getElementById("ship").innerText = "Phí vận chuyển: " + shipping.toLocaleString() + "đ";
+    document.getElementById("grandTotal").innerHTML = "<b>Tổng thanh toán: " + grandTotal.toLocaleString() + "đ</b>";
+}
+
+// Xóa sản phẩm
+function removeItem(index) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+}
+
+// Thanh toán
 function checkout() {
     let name = document.getElementById("fullname").value.trim();
     let addr = document.getElementById("address").value.trim();
-
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     if (!name || !addr) {
@@ -80,7 +131,6 @@ function checkout() {
         return;
     }
 
-    // Tính tổng tiền mới
     let subtotal = 0;
     cart.forEach(item => subtotal += item.price * item.qty);
     let vat = subtotal * 0.1;
@@ -92,11 +142,15 @@ function checkout() {
     );
 
     localStorage.removeItem("cart");
-    renderCart(); // cập nhật lại bảng giỏ hàng
+    renderCart();
 
     document.getElementById("fullname").value = "";
     document.getElementById("address").value = "";
 }
+
+// Chạy khi mở trang
+renderCart();
 </script>
+
 </body>
 </html>
