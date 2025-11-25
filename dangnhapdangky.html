@@ -4,139 +4,139 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Đăng nhập / Đăng ký</title>
+
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background: #ecf0f1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-.container {
-    background: #fff;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    width: 350px;
-}
-input { padding: 10px; margin: 10px 0; width: 100%; border-radius: 5px; border: 1px solid #ccc; }
-button { padding: 10px; width: 100%; background:#2980b9; color:white; border:none; border-radius:5px; cursor:pointer; font-size:16px; }
-button:hover { background:#1f6693; }
-.message { font-size: 14px; margin-top:5px; color:red; }
-.switch { margin-top: 15px; text-align:center; font-size:14px; }
-.switch a { color:#2980b9; text-decoration:none; }
-.switch a:hover { text-decoration:underline; }
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        padding: 20px;
+    }
+    .box {
+        width: 350px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+    input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        width: 100%;
+        padding: 10px;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 </style>
 </head>
 
 <body>
 
-<!-- FORM ĐĂNG NHẬP -->
-<div class="container" id="loginForm">
-<h2>Đăng nhập</h2>
-<input type="text" id="loginUser" placeholder="Tài khoản"><br>
-<input type="password" id="loginPass" placeholder="Mật khẩu"><br>
-<button onclick="dangNhap()">Đăng nhập</button>
-<p id="loginMessage" class="message"></p>
-<div class="switch">
-Chưa có tài khoản? <a href="#" onclick="showRegister()">Đăng ký ngay</a>
-</div>
+<div class="box">
+    <h2>Đăng ký</h2>
+
+    <input type="text" id="regName" placeholder="Họ và tên">
+    <input type="text" id="regEmail" placeholder="Email">
+    <input type="text" id="regPhone" placeholder="Số điện thoại">
+    <input type="password" id="regPass" placeholder="Mật khẩu (tối thiểu 6 ký tự)">
+
+    <button onclick="dangKy()">Đăng ký</button>
 </div>
 
-<!-- FORM ĐĂNG KÝ -->
-<div class="container" id="registerForm" style="display:none;">
-<h2>Đăng ký</h2>
-<input type="text" id="regUser" placeholder="Tên đăng nhập"><br>
-<input type="email" id="regEmail" placeholder="Email"><br>
-<input type="password" id="regPass" placeholder="Mật khẩu"><br>
-<button onclick="dangKy()">Đăng ký</button>
-<p id="registerMessage" class="message"></p>
-<div class="switch">
-Đã có tài khoản? <a href="#" onclick="showLogin()">Đăng nhập</a>
-</div>
+<br>
+
+<div class="box">
+    <h2>Đăng nhập</h2>
+
+    <input type="text" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPass" placeholder="Mật khẩu">
+
+    <button onclick="dangNhap()">Đăng nhập</button>
 </div>
 
 <script>
-// Chuyển form
-function showRegister(){
-    document.getElementById("loginForm").style.display="none";
-    document.getElementById("registerForm").style.display="block";
-}
-function showLogin(){
-    document.getElementById("registerForm").style.display="none";
-    document.getElementById("loginForm").style.display="block";
-}
+function dangKy() {
+    let name = document.getElementById("regName").value.trim();
+    let email = document.getElementById("regEmail").value.trim();
+    let phone = document.getElementById("regPhone").value.trim();
+    let pass = document.getElementById("regPass").value.trim();
 
-// Đăng ký
-function dangKy(){
-    let username = document.getElementById('regUser').value.trim();
-    let email    = document.getElementById('regEmail').value.trim();
-    let password = document.getElementById('regPass').value.trim();
-    let msg = document.getElementById('registerMessage');
-
-    if(!username || !email || !password){
-        msg.style.color = "red";
-        msg.textContent = "Vui lòng điền đầy đủ thông tin!";
+    // CHECK TRỐNG
+    if (!name || !email || !phone || !pass) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
         return;
     }
 
-    let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-
-    if(accounts.find(acc => acc.username === username)){
-        msg.style.color = "red";
-        msg.textContent = "Tên đăng nhập đã tồn tại!";
+    // CHECK EMAIL
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert("Email không hợp lệ! Ví dụ: ten@gmail.com");
         return;
     }
 
-    accounts.push({username, email, password});
-    localStorage.setItem("accounts", JSON.stringify(accounts));
+    // CHECK SỐ ĐIỆN THOẠI
+    let phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone)) {
+        alert("Số điện thoại phải gồm đúng 10 chữ số!");
+        return;
+    }
 
-    msg.style.color = "green";
-    msg.textContent = "Đăng ký thành công!";
+    // CHECK MẬT KHẨU
+    if (pass.length < 6) {
+        alert("Mật khẩu tối thiểu phải 6 ký tự!");
+        return;
+    }
 
-    // Clear input
-    document.getElementById("regUser").value = "";
-    document.getElementById("regEmail").value = "";
-    document.getElementById("regPass").value = "";
+    // LƯU TÀI KHOẢN
+    let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    // Tự chuyển về đăng nhập sau 1 giây
-    setTimeout(() => {
-        showLogin();
-    }, 1000);
+    // CHECK EMAIL TRÙNG
+    let checkEmail = users.find(u => u.email === email);
+    if (checkEmail) {
+        alert("Email này đã được đăng ký!");
+        return;
+    }
+
+    users.push({
+        name: name,
+        email: email,
+        phone: phone,
+        password: pass
+    });
+
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Đăng ký thành công!");
 }
 
-// Đăng nhập
-function dangNhap(){
-    let username = document.getElementById('loginUser').value.trim();
-    let password = document.getElementById('loginPass').value.trim();
-    let msg = document.getElementById('loginMessage');
+function dangNhap() {
+    let email = document.getElementById("loginEmail").value.trim();
+    let pass = document.getElementById("loginPass").value.trim();
 
-    if(!username || !password){
-        msg.style.color = "red";
-        msg.textContent = "Vui lòng nhập đầy đủ!";
-        return;
-    }
+    let users = JSON.parse(localStorage.getItem("users")) || [];
 
-    let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
-    let account = accounts.find(acc =>
-        acc.username === username && acc.password === password
-    );
+    let findUser = users.find(u => u.email === email && u.password === pass);
 
-    if(account){
-        // Lưu người dùng
-        localStorage.setItem("currentUser", JSON.stringify({
-            username: account.username,
-            email: account.email
-        }));
+    if (findUser) {
+        alert("Đăng nhập thành công!");
 
-        window.location.href = "taikhoan.html";
+        localStorage.setItem("currentUser", JSON.stringify(findUser));
+
+        // Chuyển trang khi đăng nhập thành công
+        window.location.href = "trangchu2.html";
     } else {
-        msg.style.color = "red";
-        msg.textContent = "Sai tài khoản hoặc mật khẩu!";
+        alert("Sai email hoặc mật khẩu!");
     }
 }
 </script>
 
 </body>
-    </html>
+</html>
