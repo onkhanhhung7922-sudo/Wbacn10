@@ -88,7 +88,7 @@ function renderCart() {
                 <td>${item.name}</td>
                 <td>${item.price.toLocaleString()}đ</td>
                 <td>${item.qty}</td>
-                <td>${(item.price*item.qty).toLocaleString()}đ</td>
+                <td>${(item.price * item.qty).toLocaleString()}đ</td>
                 <td><button class="removeBtn" onclick="removeItem(${index})">X</button></td>
             </tr>
         `;
@@ -118,8 +118,17 @@ function checkout() {
     let phone = document.getElementById("phone").value.trim();
     let addr = document.getElementById("address").value.trim();
 
+    // Kiểm tra rỗng
     if (!name || !phone || !addr) {
         alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    // KIỂM TRA SỐ ĐIỆN THOẠI — PHẢI ĐÚNG 10 SỐ VÀ KHÔNG CÓ CHỮ
+    let phoneRegex = /^[0-9]{10}$/;
+
+    if (!phoneRegex.test(phone)) {
+        alert("Số điện thoại không hợp lệ! Vui lòng nhập đúng 10 chữ số và không có ký tự khác.");
         return;
     }
 
@@ -142,6 +151,5 @@ function checkout() {
 
 renderCart();
 </script>
-
 </body>
 </html>
