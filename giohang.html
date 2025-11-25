@@ -64,60 +64,6 @@ button {
 </div>
 
 <script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let grandTotal = 0;
-
-function renderCart() {
-    cart = JSON.parse(localStorage.getItem("cart")) || [];
-    let table = document.getElementById("cartTable");
-    // Xóa các hàng cũ (trừ header)
-    table.innerHTML = `
-        <tr>
-            <th>Sản phẩm</th>
-            <th>Giá</th>
-            <th>Số lượng</th>
-            <th>Tổng</th>
-            <th>Xóa</th>
-        </tr>
-    `;
-
-    let subtotal = 0;
-
-    cart.forEach((item, index) => {
-        let row = table.insertRow();
-        row.insertCell(0).innerText = item.name;
-        row.insertCell(1).innerText = item.price.toLocaleString() + "đ";
-        row.insertCell(2).innerText = item.qty;
-        row.insertCell(3).innerText = (item.price * item.qty).toLocaleString() + "đ";
-
-        let delCell = row.insertCell(4);
-        let delBtn = document.createElement("button");
-        delBtn.innerText = "Xóa";
-        delBtn.classList.add("removeBtn");
-        delBtn.onclick = () => removeItem(index);
-        delCell.appendChild(delBtn);
-
-        subtotal += item.price * item.qty;
-    });
-
-    let vat = subtotal * 0.1;
-    let shipping = cart.length > 0 ? 30000 : 0;
-    grandTotal = subtotal + vat + shipping;
-
-    document.getElementById("subtotal").innerText = "Tạm tính: " + subtotal.toLocaleString() + "đ";
-    document.getElementById("vat").innerText = "Thuế (VAT 10%): " + vat.toLocaleString() + "đ";
-    document.getElementById("ship").innerText = "Phí vận chuyển: " + shipping.toLocaleString() + "đ";
-    document.getElementById("grandTotal").innerHTML = "<b>Tổng thanh toán: " + grandTotal.toLocaleString() + "đ</b>";
-}
-
-function removeItem(index) {
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    renderCart();
-}
-
-// Khởi chạy khi mở trang
-renderCart();
     function checkout() {
     let fullname = document.getElementById("fullname").value.trim();
     let address = document.getElementById("address").value.trim();
