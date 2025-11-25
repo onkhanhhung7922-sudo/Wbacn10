@@ -155,10 +155,7 @@
 <script>
 // KIỂM TRA ĐĂNG NHẬP TRƯỚC KHI THÊM GIỎ
 function addToCart(name, price) {
-
-    // Chặn lỗi: chuyển price thành số
     price = Number(price);
-
     let currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
     if (!currentUser || !currentUser.email) {
@@ -167,28 +164,19 @@ function addToCart(name, price) {
         return;
     }
 
-    // Lấy giỏ hàng từ localStorage
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // Kiểm tra sản phẩm đã có trong giỏ chưa
     let item = cart.find(p => p.name === name);
-
     if (item) {
-        item.qty++; // tăng số lượng
+        item.qty++;
     } else {
-        cart.push({
-            name: name,
-            price: price,
-            qty: 1
-        });
+        cart.push({ name: name, price: price, qty: 1 });
     }
 
-    // Lưu lại giỏ hàng
     localStorage.setItem("cart", JSON.stringify(cart));
-
     alert("Đã thêm vào giỏ hàng!");
 }
-  </script>
+</script>
 
 </body>
       </html>
