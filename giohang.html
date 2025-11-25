@@ -118,6 +118,44 @@ function removeItem(index) {
 
 // Khởi chạy khi mở trang
 renderCart();
+    function checkout() {
+    let fullname = document.getElementById("fullname").value.trim();
+    let address = document.getElementById("address").value.trim();
+
+    // Lấy giỏ hàng mới nhất
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (!fullname || !address) {
+        alert("Vui lòng nhập đầy đủ thông tin!");
+        return;
+    }
+
+    if (cart.length === 0) {
+        alert("Giỏ hàng của bạn đang trống!");
+        return;
+    }
+
+    // Tính subtotal, VAT, shipping, grandTotal
+    let subtotal = 0;
+    cart.forEach(item => subtotal += item.price * item.qty);
+    let vat = subtotal * 0.1;
+    let shipping = 30000;
+    let grandTotal = subtotal + vat + shipping;
+
+    alert(
+        `Đặt hàng thành công!\n\nHọ tên: ${fullname}\nĐịa chỉ: ${address}\nTổng thanh toán: ${grandTotal.toLocaleString()}đ`
+    );
+
+    // Xóa giỏ hàng sau khi thanh toán
+    localStorage.removeItem("cart");
+
+    // Cập nhật lại bảng giỏ hàng
+    renderCart();
+
+    // Reset form
+    document.getElementById("fullname").value = "";
+    document.getElementById("address").value = "";
+    }
 </script>
 
 </body>
